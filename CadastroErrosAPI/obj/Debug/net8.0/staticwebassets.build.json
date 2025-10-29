@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "3h6NZ+Het1bsyUjdfY3I4oQTDdEdTu7rT4zxvzn8uQw=",
+  "Source": "CadastroErrosAPI",
+  "BasePath": "_content/CadastroErrosAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CadastroErrosAPI\\wwwroot",
+      "Source": "CadastroErrosAPI",
+      "ContentRoot": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\",
+      "BasePath": "_content/CadastroErrosAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\illustration-rain-futuristic-city.jpg",
+      "SourceId": "CadastroErrosAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\",
+      "BasePath": "_content/CadastroErrosAPI",
+      "RelativePath": "imagens/illustration-rain-futuristic-city.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagens\\illustration-rain-futuristic-city.jpg"
+    }
+  ]
+}
