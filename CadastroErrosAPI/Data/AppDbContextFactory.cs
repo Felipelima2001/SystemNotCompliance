@@ -9,7 +9,8 @@ namespace CadastroErrosAPI.Data
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Server=DESKTOP-1MQTRJM\\SQLSERVER;Database=CadastroErrosDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-1MQTRJM\\SQLSERVER;Database=CadastroErrosDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+
 
             return new AppDbContext(optionsBuilder.Options);
         }

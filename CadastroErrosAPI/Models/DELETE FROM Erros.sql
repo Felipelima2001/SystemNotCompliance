@@ -1,0 +1,2 @@
+DELETE FROM Erros
+WHERE SetorId NOT IN (SELECT Id FROM Setores);

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function CadastroErro() {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [form, setForm] = useState({
     descricao: '',
@@ -13,44 +13,63 @@ export default function CadastroErro() {
     lote: '',
     acaoTomada: '',
     imagem: null,
+    setorId: '',
+    dataRegistro: '', // necessário para cadastro e edição
   });
 
+  const [setores, setSetores] = useState([]);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [carregando, setCarregando] = useState(false);
-
-  // Define tipo com base na descrição
-  const tipo = form.descricao?.toLowerCase().includes('não conformidade')
-    ? 'não Conformidade'
-    : 'Erro';
-
-  const titulo = id ? `Editar ${tipo}` : `Cadastrar ${tipo}`;
+  const [carregandoDados, setCarregandoDados] = useState(!!id);
 
   useEffect(() => {
+    const carregarSetores = async () => {
+      try {
+        const res = await axios.get('http://localhost:5112/api/Setores');
+        setSetores(res.data);
+      } catch (err) {
+        console.error('Erro ao buscar setores:', err);
+      }
+    };
+
+    const carregarErro = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5112/api/Erros/${id}`);
+        const erro = res.data;
+        setForm({
+          descricao: erro.descricao || '',
+          identificacao: erro.identificacao || '',
+          item: erro.item || '',
+          lote: erro.lote || '',
+          acaoTomada: erro.acaoTomada || '',
+          imagem: null,
+          setorId: erro.setorId?.toString() || '',
+          dataRegistro: erro.dataRegistro || new Date().toISOString(),
+        });
+        if (erro.imagePath) {
+          setPreviewUrl(`http://localhost:5112${erro.imagePath}`);
+        }
+      } catch (err) {
+        console.error('Erro ao carregar erro existente:', err);
+      } finally {
+        setCarregandoDados(false);
+      }
+    };
+
+    carregarSetores();
     if (id) {
-      axios.get(`http://localhost:5112/api/Erros/${id}`)
-        .then(res => {
-          const erro = res.data;
-          setForm({
-            descricao: erro.descricao || '',
-            identificacao: erro.identificacao || '',
-            item: erro.item || '',
-            lote: erro.lote || '',
-            acaoTomada: erro.acaoTomada || '',
-            imagem: null,
-          });
-          if (erro.imagePath) {
-            setPreviewUrl(`http://localhost:5112${erro.imagePath}`);
-          }
-        })
-        .catch(err => console.error('Erro ao carregar erro:', err));
+      carregarErro();
+    } else {
+      setForm(prev => ({ ...prev, dataRegistro: new Date().toISOString() }));
+      setCarregandoDados(false);
     }
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files && files.length > 0) {
+    if (files?.length) {
       const file = files[0];
-      setForm(prev => ({ ...prev, [name]: file }));
+      setForm(prev => ({ ...prev, imagem: file }));
       setPreviewUrl(URL.createObjectURL(file));
     } else {
       setForm(prev => ({ ...prev, [name]: value }));
@@ -60,7 +79,7 @@ export default function CadastroErro() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.descricao || !form.identificacao) {
+    if (!form.descricao || !form.identificacao || !form.setorId) {
       alert('Preencha os campos obrigatórios.');
       return;
     }
@@ -74,128 +93,126 @@ export default function CadastroErro() {
       data.append('Item', form.item);
       data.append('Lote', form.lote);
       data.append('AcaoTomada', form.acaoTomada);
-      data.append('DataRegistro', new Date().toISOString());
-
+      data.append('SetorId', parseInt(form.setorId));
+      data.append('DataRegistro', form.dataRegistro);
       if (form.imagem) {
         data.append('Imagem', form.imagem);
       }
 
-      const config = {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      };
-
       if (id) {
-        await axios.put(`http://localhost:5112/api/Erros/com-imagem/${id}`, data, config);
+        await axios.put(`http://localhost:5112/api/Erros/com-imagem/${id}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
         alert('Erro atualizado com sucesso!');
       } else {
-        await axios.post('http://localhost:5112/api/Erros/com-imagem', data, config);
+        await axios.post('http://localhost:5112/api/Erros/com-imagem', data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
         alert('Erro cadastrado com sucesso!');
       }
 
       navigate('/erros');
     } catch (err) {
-      console.error('Erro ao enviar:', err.response?.data || err.message);
-      alert(`Falha ao cadastrar ou atualizar erro: ${err.response?.data?.message || err.message}`);
+      console.error('Erro ao salvar:', err.response?.data || err.message);
+      alert('Falha ao salvar erro.');
     } finally {
       setCarregando(false);
     }
   };
 
-  const handleExcluir = async () => {
-    if (!window.confirm('Tem certeza que deseja excluir este erro?')) return;
-
-    try {
-      await axios.delete(`http://localhost:5112/api/Erros/${id}`);
-      alert('Erro excluído com sucesso!');
-      navigate('/erros');
-    } catch (err) {
-      console.error('Erro ao excluir:', err);
-      alert('Falha ao excluir erro.');
-    }
-  };
-
   return (
-    <div className="max-w-xl mx-auto p-6 bg-gray-900 text-white rounded shadow">
-     <h2 className="text-2xl font-bold mb-4">
-         {id ? 'Editar não Conformidade' : 'Cadastrar não Conformidade'}
+    <div className="min-h-screen bg-gray-950 text-white px-4 pt-[200px] pb-8">
+      <div className="max-w-md mx-auto bg-gray-900 rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-bold text-center text-[#773870] mb-6">
+          {id ? 'Editar Não Conformidade' : 'Cadastrar Não Conformidade'}
         </h2>
- 
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          name="descricao"
-          placeholder="Descrição do erro"
-          value={form.descricao}
-          onChange={handleChange}
-          required
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2 placeholder-gray-400"
-        />
-        <input
-          name="identificacao"
-          placeholder="Identificação"
-          value={form.identificacao}
-          onChange={handleChange}
-          required
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2 placeholder-gray-400"
-        />
-        <input
-          name="item"
-          placeholder="Item"
-          value={form.item}
-          onChange={handleChange}
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2 placeholder-gray-400"
-        />
-        <input
-          name="lote"
-          placeholder="Lote"
-          value={form.lote}
-          onChange={handleChange}
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2 placeholder-gray-400"
-        />
-        <input
-          name="acaoTomada"
-          placeholder="Ação tomada"
-          value={form.acaoTomada}
-          onChange={handleChange}
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2 placeholder-gray-400"
-        />
-        <input
-          type="file"
-          name="imagem"
-          accept="image/*"
-          onChange={handleChange}
-          className="bg-gray-800 text-white border border-gray-600 rounded p-2"
-        />
-
-        {previewUrl && (
-          <div className="mt-2">
-            <p className="text-sm text-gray-400 mb-1">Pré-visualização da imagem:</p>
-            <img
-              src={previewUrl}
-              alt="Preview"
-              className="w-full h-48 object-cover rounded border border-gray-700"
+        {carregandoDados ? (
+          <p className="text-center text-gray-400">Carregando dados...</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-3 text-sm">
+            <input
+              name="descricao"
+              placeholder="Descrição"
+              value={form.descricao}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+              required
             />
-          </div>
-        )}
+            <input
+              name="identificacao"
+              placeholder="Identificação"
+              value={form.identificacao}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+              required
+            />
+            <input
+              name="item"
+              placeholder="Item"
+              value={form.item}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+            />
+            <input
+              name="lote"
+              placeholder="Lote"
+              value={form.lote}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+            />
+            <input
+              name="acaoTomada"
+              placeholder="Ação Tomada"
+              value={form.acaoTomada}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+            />
 
-        <button
-          type="submit"
-          disabled={carregando}
-          className="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded"
-        >
-          {carregando ? 'Enviando...' : id ? 'Atualizar' : 'Cadastrar'}
-        </button>
+            <select
+              name="setorId"
+              value={form.setorId}
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+              required
+            >
+              <option value="">Selecione o setor</option>
+              {setores.map((setor) => (
+                <option key={setor.id} value={setor.id.toString()}>
+                  {setor.nome}
+                </option>
+              ))}
+            </select>
 
-        {id && (
-          <button
-            type="button"
-            onClick={handleExcluir}
-            className="bg-red-600 hover:bg-red-700 text-white py-2 rounded"
-          >
-            Excluir
-          </button>
+            <input
+              type="file"
+              name="imagem"
+              accept="image/*"
+              onChange={handleChange}
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded p-2"
+            />
+
+            {previewUrl && (
+              <div className="mt-2">
+                <p className="text-xs text-gray-400 mb-1">Pré-visualização:</p>
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="w-full h-40 object-cover rounded border border-gray-700"
+                />
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={carregando}
+              className="w-full bg-[#773870] hover:bg-purple-700 text-white py-2 rounded font-semibold text-sm transition"
+            >
+              {carregando ? 'Salvando...' : id ? 'Atualizar' : 'Cadastrar'}
+            </button>
+          </form>
         )}
-      </form>
+      </div>
     </div>
   );
 }

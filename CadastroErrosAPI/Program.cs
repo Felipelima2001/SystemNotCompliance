@@ -21,6 +21,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+
 // Configura serviços da API
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

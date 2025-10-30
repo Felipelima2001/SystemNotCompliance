@@ -4,6 +4,7 @@ using CadastroErrosAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CadastroErrosAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251030175952_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +60,7 @@ namespace CadastroErrosAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SetorId")
+                    b.Property<int?>("SetorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -69,11 +72,11 @@ namespace CadastroErrosAPI.Migrations
 
             modelBuilder.Entity("CadastroErrosAPI.Models.Setor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SetorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SetorId"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -83,7 +86,7 @@ namespace CadastroErrosAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SetorId");
 
                     b.ToTable("Setores");
                 });
@@ -93,8 +96,7 @@ namespace CadastroErrosAPI.Migrations
                     b.HasOne("CadastroErrosAPI.Models.Setor", "Setor")
                         .WithMany("Erros")
                         .HasForeignKey("SetorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Setor");
                 });

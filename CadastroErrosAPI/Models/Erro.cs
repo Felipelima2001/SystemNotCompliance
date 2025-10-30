@@ -25,5 +25,8 @@ namespace CadastroErrosAPI.Models
         public string ImagePath { get; set; } = string.Empty;
 
         public DateTime DataRegistro { get; set; } = DateTime.Now;
+            public int SetorId { get; set; }
+        public Setor Setor { get; set; }
+        public object Imagem { get; internal set; }
     }
 }
