@@ -67,7 +67,7 @@ export default function ListagemErros() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 pt-[100px] pb-10">
+    <div className="min-h-screen bg-gray-950 text-white px-6 pt-[800px] pb-16">
       <h2 className="text-3xl font-bold mb-8 text-center text-[#773870]">Divergências Registradas</h2>
 
       {/* Filtros */}
