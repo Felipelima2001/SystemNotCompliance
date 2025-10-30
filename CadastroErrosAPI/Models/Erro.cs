@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations;
 namespace CadastroErrosAPI.Models
 {
     public class Erro
-    {
+    {   
+    
+
         public int Id { get; set; }
 
         [Required]

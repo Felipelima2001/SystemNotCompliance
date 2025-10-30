@@ -4,7 +4,6 @@ using CadastroErrosAPI.Data;
 using CadastroErrosAPI.Models;
 using CadastroErrosAPI.Dtos;
 
-
 namespace CadastroErrosAPI.Controllers
 {
     [ApiController]
@@ -40,25 +39,19 @@ namespace CadastroErrosAPI.Controllers
         [HttpGet("por-lote/{lote}")]
         public async Task<ActionResult<IEnumerable<Erro>>> GetPorLote(string lote)
         {
-            return await _context.Erros
-                .Where(e => e.Lote == lote)
-                .ToListAsync();
+            return await _context.Erros.Where(e => e.Lote == lote).ToListAsync();
         }
 
         [HttpGet("ordenado")]
         public async Task<ActionResult<IEnumerable<Erro>>> GetOrdenado()
         {
-            return await _context.Erros
-                .OrderByDescending(e => e.DataRegistro)
-                .ToListAsync();
+            return await _context.Erros.OrderByDescending(e => e.DataRegistro).ToListAsync();
         }
 
         [HttpGet("por-data/{data}")]
         public async Task<ActionResult<IEnumerable<Erro>>> GetPorData(DateTime data)
         {
-            return await _context.Erros
-                .Where(e => e.DataRegistro.Date == data.Date)
-                .ToListAsync();
+            return await _context.Erros.Where(e => e.DataRegistro.Date == data.Date).ToListAsync();
         }
 
         [HttpGet("pagina")]
@@ -71,50 +64,49 @@ namespace CadastroErrosAPI.Controllers
         }
 
         // ============================
-        // POST: Criação
+        // POST: Criação com imagem
         // ============================
-[HttpPost("com-imagem")]
-public async Task<IActionResult> PostErroComImagem([FromForm] ErroComImagemDto dto)
-{
-    string imagePath = "";
 
-    if (dto.Imagem != null && dto.Imagem.Length > 0)
-    {
-        var webRoot = _env?.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-        var pasta = Path.Combine(webRoot, "imagens");
+        [HttpPost("com-imagem")]
+        public async Task<IActionResult> PostErroComImagem([FromForm] ErroComImagemDto dto)
+        {
+            string imagePath = "";
 
-        if (!Directory.Exists(pasta))
-            Directory.CreateDirectory(pasta);
+            if (dto.Imagem != null && dto.Imagem.Length > 0)
+            {
+                var webRoot = _env?.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var pasta = Path.Combine(webRoot, "imagens");
 
-        var caminho = Path.Combine(pasta, dto.Imagem.FileName);
+                if (!Directory.Exists(pasta))
+                    Directory.CreateDirectory(pasta);
 
-        using var stream = new FileStream(caminho, FileMode.Create);
-        await dto.Imagem.CopyToAsync(stream);
+                var caminho = Path.Combine(pasta, dto.Imagem.FileName);
 
-        imagePath = $"/imagens/{dto.Imagem.FileName}";
-    }
+                using var stream = new FileStream(caminho, FileMode.Create);
+                await dto.Imagem.CopyToAsync(stream);
 
-    var erro = new Erro
-    {
-        Descricao = dto.Descricao,
-        Identificacao = dto.Identificacao,
-        Item = dto.Item,
-        Lote = dto.Lote,
-        AcaoTomada = dto.AcaoTomada,
-        DataRegistro = dto.DataRegistro,
-        ImagePath = imagePath
-    };
+                imagePath = $"/imagens/{dto.Imagem.FileName}";
+            }
 
-    _context.Erros.Add(erro);
-    await _context.SaveChangesAsync();
+            var erro = new Erro
+            {
+                Descricao = dto.Descricao,
+                Identificacao = dto.Identificacao,
+                Item = dto.Item,
+                Lote = dto.Lote,
+                AcaoTomada = dto.AcaoTomada,
+                DataRegistro = dto.DataRegistro,
+                ImagePath = imagePath
+            };
 
-    return CreatedAtAction(nameof(GetPorId), new { id = erro.Id }, erro);
-}
+            _context.Erros.Add(erro);
+            await _context.SaveChangesAsync();
 
-
+            return CreatedAtAction(nameof(GetPorId), new { id = erro.Id }, erro);
+        }
 
         // ============================
-        // PUT: Atualização
+        // PUT: Atualização sem imagem
         // ============================
 
         [HttpPut("{id}")]
@@ -137,6 +129,46 @@ public async Task<IActionResult> PostErroComImagem([FromForm] ErroComImagemDto d
             }
 
             return NoContent();
+        }
+
+        // ============================
+        // PUT: Atualização com imagem
+        // ============================
+
+        [HttpPut("com-imagem/{id}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AtualizarErroComImagem(int id, [FromForm] ErroComImagemDto dto)
+        {
+            var erro = await _context.Erros.FindAsync(id);
+            if (erro == null)
+                return NotFound();
+
+            erro.Descricao = dto.Descricao;
+            erro.Identificacao = dto.Identificacao;
+            erro.Item = dto.Item;
+            erro.Lote = dto.Lote;
+            erro.AcaoTomada = dto.AcaoTomada;
+            erro.DataRegistro = dto.DataRegistro;
+
+            if (dto.Imagem != null && dto.Imagem.Length > 0)
+            {
+                var webRoot = _env?.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var pasta = Path.Combine(webRoot, "imagens");
+
+                if (!Directory.Exists(pasta))
+                    Directory.CreateDirectory(pasta);
+
+                var caminho = Path.Combine(pasta, dto.Imagem.FileName);
+
+                using var stream = new FileStream(caminho, FileMode.Create);
+                await dto.Imagem.CopyToAsync(stream);
+
+                erro.ImagePath = $"/imagens/{dto.Imagem.FileName}";
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(erro);
         }
 
         // ============================

@@ -8,5 +8,6 @@ namespace CadastroErrosAPI.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Erro> Erros { get; set; }
+      
     }
 }

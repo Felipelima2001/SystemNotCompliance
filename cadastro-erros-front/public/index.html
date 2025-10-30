@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bem-vindo | Sistema de Erros</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(to bottom right, #1e1e2f, #0f0f1a);
+      color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .welcome {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    #root {
+      display: none;
+      background-color: rgba(255, 255, 255, 0.06);
+      padding: 20px 30px;
+      border-radius: 2px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      max-width: 1200px;
+      width: 100%;
+      margin-top: 60px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #7e22ce;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome" id="welcome">
+    Bem-vindo ao Sistema de Erros
+  </div>
+
+  <div id="root">
+    <h2>Cadastro de Novo Erro</h2>
+    <form>
+      <input type="text" placeholder="Descrição do erro" required />
+      <input type="text" placeholder="Identificação" required />
+      <input type="text" placeholder="Item" />
+      <input type="text" placeholder="Lote" />
+      <textarea placeholder="Ação tomada" rows="4"></textarea>
+      <input type="file" />
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('root').style.display = 'block';
+    }, 2000); // 5 segundos
+  </script>
+</body>
+</html>

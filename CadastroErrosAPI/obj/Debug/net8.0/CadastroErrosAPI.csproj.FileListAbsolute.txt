@@ -153,6 +153,7 @@ C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\ne
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\CadastroErrosAPI.csproj.CoreCompileInputs.cache
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\CadastroErrosAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\CadastroErrosAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\CadastroErrosAPI.sourcelink.json
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\PLAY\Documents\GitHub\SystemNotCompliance\CadastroErrosAPI\obj\Debug\net8.0\staticwebassets\msbuild.CadastroErrosAPI.Microsoft.AspNetCore.StaticWebAssets.props
