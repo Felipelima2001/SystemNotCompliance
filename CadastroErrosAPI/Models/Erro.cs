@@ -1,11 +1,11 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CadastroErrosAPI.Models
 {
     public class Erro
-    {   
-    
-
+    {
         public int Id { get; set; }
 
         [Required]
@@ -22,11 +22,16 @@ namespace CadastroErrosAPI.Models
 
         public string AcaoTomada { get; set; } = string.Empty;
 
+        // Caminho da imagem salva no servidor
         public string ImagePath { get; set; } = string.Empty;
 
         public DateTime DataRegistro { get; set; } = DateTime.Now;
-            public int SetorId { get; set; }
-        public Setor Setor { get; set; }
-        public object Imagem { get; internal set; }
+
+        public int SetorId { get; set; }
+        public Setor Setor { get; set; } = null!;
+
+        // Campo apenas para uso interno (não mapeado no banco)
+        [NotMapped]
+        public object? Imagem { get; set; }
     }
 }

@@ -89,15 +89,16 @@ namespace CadastroErrosAPI.Controllers
             }
 
             var erro = new Erro
-            {
-                Descricao = dto.Descricao,
-                Identificacao = dto.Identificacao,
-                Item = dto.Item,
-                Lote = dto.Lote,
-                AcaoTomada = dto.AcaoTomada,
-                DataRegistro = dto.DataRegistro,
-                ImagePath = imagePath
-            };
+        {
+            Descricao = dto.Descricao,
+            Identificacao = dto.Identificacao,
+            Item = dto.Item,
+            Lote = dto.Lote,
+            AcaoTomada = dto.AcaoTomada,
+            DataRegistro = dto.DataRegistro,
+            ImagePath = imagePath,
+            SetorId = dto.SetorId // ✅ agora obrigatório
+        };
 
             _context.Erros.Add(erro);
             await _context.SaveChangesAsync();

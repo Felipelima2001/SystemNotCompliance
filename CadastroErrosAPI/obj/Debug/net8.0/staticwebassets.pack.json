@@ -1,0 +1,61 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\NE000123-Logo NEODENT STMN GRP- RGB-01 (1).png",
+      "PackagePath": "staticwebassets\\imagens\\NE000123-Logo NEODENT STMN GRP- RGB-01 (1).png"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\aesthetic-anime-character-gaming.jpg",
+      "PackagePath": "staticwebassets\\imagens\\aesthetic-anime-character-gaming.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\fundo-de-papel-de-parede-escuro-estetico-luz-de-neon.jpg",
+      "PackagePath": "staticwebassets\\imagens\\fundo-de-papel-de-parede-escuro-estetico-luz-de-neon.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\illustration-rain-futuristic-city.jpg",
+      "PackagePath": "staticwebassets\\imagens\\illustration-rain-futuristic-city.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\img-produto-pecas-usinadas-04.webp",
+      "PackagePath": "staticwebassets\\imagens\\img-produto-pecas-usinadas-04.webp"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\peca 03.jfif",
+      "PackagePath": "staticwebassets\\imagens\\peca 03.jfif"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\pecas-usinadas-02.jpg",
+      "PackagePath": "staticwebassets\\imagens\\pecas-usinadas-02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\pexels-adrien-olichon-1257089-2387793.jpg",
+      "PackagePath": "staticwebassets\\imagens\\pexels-adrien-olichon-1257089-2387793.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\pexels-semws-2670898.jpg",
+      "PackagePath": "staticwebassets\\imagens\\pexels-semws-2670898.jpg"
+    },
+    {
+      "Id": "C:\\Users\\PLAY\\Documents\\GitHub\\SystemNotCompliance\\CadastroErrosAPI\\wwwroot\\imagens\\war-tank-dark-style.jpg",
+      "PackagePath": "staticwebassets\\imagens\\war-tank-dark-style.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CadastroErrosAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CadastroErrosAPI.props",
+      "PackagePath": "build\\CadastroErrosAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CadastroErrosAPI.props",
+      "PackagePath": "buildMultiTargeting\\CadastroErrosAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CadastroErrosAPI.props",
+      "PackagePath": "buildTransitive\\CadastroErrosAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
